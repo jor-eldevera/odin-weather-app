@@ -53,3 +53,53 @@ form {
     /* this makes the height of the bottom the same as the height of the top, centering the middle */
     margin-top: 45px; 
 }
+
+.toggle-switch {
+    display: inline-block;
+    position: relative;
+    margin-top: 10px;
+}
+  
+.toggle-input {
+    display: none;
+}
+  
+.toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90px;
+    height: 32px;
+    background-color: #D62246;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+  
+.toggle-text {
+    padding: 4px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+  
+.toggle-handle {
+    display: block;
+    width: 60px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 12px;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s ease;
+}
+  
+.toggle-input:checked + .toggle-label {
+    background-color: #2196F3;
+}
+  
+.toggle-input:checked + .toggle-label .toggle-handle {
+    transform: translateX(23px);
+}
+  
