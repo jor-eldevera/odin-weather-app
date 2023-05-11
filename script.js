@@ -28,6 +28,7 @@ function processJSON(data) {
         setWeatherCondition(data.current.condition.text, data.current.condition.icon);
         setTemp(data.current.temp_f, data.current.feelslike_f);
         setDetails(data.current.precip_in, data.current.humidity, data.current.wind_mph);
+        setDateAndLocation(data.location.name, data.location.region, data.current.last_updated);
     }
     
     console.log(data);
@@ -55,4 +56,11 @@ function setDetails(precipitation, humidity, windMPH) {
     detailsText.innerText = "Precipitation (in): " + precipitation + "\n";
     detailsText.innerText += "Humidity: " + humidity + "\n";
     detailsText.innerText += "Wind speed (mph): " + windMPH;
+}
+
+const locationText = document.getElementById("bottom-left");
+const dateText = document.getElementById("bottom-right");
+function setDateAndLocation(name, region, last_updated) {
+    locationText.innerText = name + ", " + region;
+    dateText.innerText = last_updated;
 }
