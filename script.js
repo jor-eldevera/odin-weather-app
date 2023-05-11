@@ -9,7 +9,7 @@ searchBtn.addEventListener("click", function (e) {
 async function getWeather(location) {
     let response = await fetch(`https://api.weatherapi.com/v1/current.json?key=569bab717b714768a8f20938231105&q=${location}`, {mode: 'cors'});
     let weather = await response.json();
-
+    
     return weather;
 }
 
@@ -23,12 +23,28 @@ function processJSON(data) {
             // Error
         }
     }
-
-    if (data.current) {
-        console.log("test");
+    
+    if (data.current && data.location) {
+        setWeatherCondition(data.current.condition.text, data.current.condition.icon);
+        setTemp(data.current.temp_f, data.current.feelslike_f);
     }
+    
     console.log(data);
     console.log(data.error);
     console.log(data.current.temp_f);
     console.log(data.location.name);
+}
+
+const conditionText = document.getElementById("condition-text");
+const conditionIcon = document.getElementById("condition-icon");
+function setWeatherCondition(condition, imgURL) {
+    conditionText.innerText = condition;
+    conditionIcon.src = "https:" + imgURL;
+}
+
+const tempText = document.getElementById("temp");
+const feelslikeText = document.getElementById("feelslike");
+function setTemp(temp, feelslike) {
+    tempText.innerText = temp + "°F";
+    feelslikeText.innerText = "feels like " + feelslike + " °F";
 }
