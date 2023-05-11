@@ -54,7 +54,7 @@ function setTemp(temp, feelslike) {
 const detailsText = document.getElementById("middle-right");
 function setDetails(precipitation, humidity, windMPH) {
     detailsText.innerText = "Precipitation (in): " + precipitation + "\n";
-    detailsText.innerText += "Humidity: " + humidity + "\n";
+    detailsText.innerText += "Humidity: " + humidity + "%\n";
     detailsText.innerText += "Wind speed (mph): " + windMPH;
 }
 
