@@ -14,4 +14,42 @@ form {
     width: 600px;
     height: 400px;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+#top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#condition-text {
+    font-size: 32px;
+}
+
+#middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#temp {
+    font-size: 32px;
+}
+
+#feelslike {
+    font-size: 12px;
+    color: gray;
+}
+
+#bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    /* this makes the height of the bottom the same as the height of the top, centering the middle */
+    margin-top: 45px; 
 }
