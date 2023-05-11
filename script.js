@@ -27,6 +27,7 @@ function processJSON(data) {
     if (data.current && data.location) {
         setWeatherCondition(data.current.condition.text, data.current.condition.icon);
         setTemp(data.current.temp_f, data.current.feelslike_f);
+        setDetails(data.current.precip_in, data.current.humidity, data.current.wind_mph);
     }
     
     console.log(data);
@@ -47,4 +48,11 @@ const feelslikeText = document.getElementById("feelslike");
 function setTemp(temp, feelslike) {
     tempText.innerText = temp + "°F";
     feelslikeText.innerText = "feels like " + feelslike + " °F";
+}
+
+const detailsText = document.getElementById("middle-right");
+function setDetails(precipitation, humidity, windMPH) {
+    detailsText.innerText = "Precipitation (in): " + precipitation + "\n";
+    detailsText.innerText += "Humidity: " + humidity + "\n";
+    detailsText.innerText += "Wind speed (mph): " + windMPH;
 }
