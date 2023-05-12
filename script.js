@@ -57,8 +57,6 @@ function processJSON(data, scale) {
         }
         setDateAndLocation(data.location.name, data.location.region, data.current.last_updated);
     }
-    
-    console.log(data);
 }
 
 const conditionText = document.getElementById("condition-text");
