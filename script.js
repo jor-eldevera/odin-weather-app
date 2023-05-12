@@ -10,7 +10,7 @@ searchBtn.addEventListener("click", function (e) {
         .then((response) => { processJSON(response, "C") });
     }
     weatherOnPage = true;
-})
+});
 
 const scaleSwitch = document.getElementById("switch");
 let weatherOnPage = false;
@@ -25,7 +25,7 @@ scaleSwitch.addEventListener("change", function (e) {
                 .then((response) => { processJSON(response, "C") });
         }
     }
-})
+});
 
 async function getWeather(location) {
     let response = await fetch(`https://api.weatherapi.com/v1/current.json?key=569bab717b714768a8f20938231105&q=${location}`, {mode: 'cors'});
@@ -38,10 +38,9 @@ function processJSON(data, scale) {
     if (data.error) {
         console.error(data.error.message);
         if (data.error.code === 1006) {
-            // display error text on the page here
-            // No matching location found.
+            setError("No matching location found.");
         } else {
-            // Error
+            setError("Error. Please try again.")
         }
     }
     
@@ -103,4 +102,15 @@ const dateText = document.getElementById("bottom-right");
 function setDateAndLocation(name, region, last_updated) {
     locationText.innerText = name + ", " + region;
     dateText.innerText = last_updated;
+}
+
+function setError(error) {
+    weatherOnPage = false;
+    conditionText.innerText = error;
+    conditionIcon.src = "";
+    tempText.innerText = "";
+    feelslikeText.innerText = "";
+    detailsText.innerText = "";
+    locationText.innerText = "";
+    dateText.innerText = "";
 }
