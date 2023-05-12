@@ -1,3 +1,4 @@
+
 const searchBtn = document.getElementById("searchBtn");
 const searchBar = document.querySelector("input");
 searchBtn.addEventListener("click", function (e) {
@@ -7,7 +8,7 @@ searchBtn.addEventListener("click", function (e) {
         .then((response) => { processJSON(response, "F") });
     } else {
         getWeather(searchBar.value)
-        .then((response) => { processJSON(response, "C") });
+            .then((response) => { processJSON(response, "C") });
     }
     weatherOnPage = true;
 });
@@ -18,14 +19,18 @@ scaleSwitch.addEventListener("change", function (e) {
     if (weatherOnPage) { // only switch scales if there is info on the page
         if (scaleSwitch.checked) {
             getWeather(searchBar.value)
-                .then((response) => { processJSON(response, "F") });
-            
+            .then((response) => { processJSON(response, "F") });
         } else {
             getWeather(searchBar.value)
-                .then((response) => { processJSON(response, "C") });
+            .then((response) => { processJSON(response, "C") });
         }
     }
 });
+
+// Set the default
+getWeather("Renton, Washington")
+    .then((response) => { processJSON(response, "C") });
+weatherOnPage = true;
 
 async function getWeather(location) {
     let response = await fetch(`https://api.weatherapi.com/v1/current.json?key=569bab717b714768a8f20938231105&q=${location}`, {mode: 'cors'});
