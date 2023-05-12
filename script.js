@@ -2,8 +2,29 @@ const searchBtn = document.getElementById("searchBtn");
 const searchBar = document.querySelector("input");
 searchBtn.addEventListener("click", function (e) {
     e.preventDefault();
-    getWeather(searchBar.value)
-        .then((response) => { processJSON(response) });
+    if (scaleSwitch.checked) {
+        getWeather(searchBar.value)
+        .then((response) => { processJSON(response, "F") });
+    } else {
+        getWeather(searchBar.value)
+        .then((response) => { processJSON(response, "C") });
+    }
+    weatherOnPage = true;
+})
+
+const scaleSwitch = document.getElementById("switch");
+let weatherOnPage = false;
+scaleSwitch.addEventListener("change", function (e) {
+    if (weatherOnPage) { // only switch scales if there is info on the page
+        if (scaleSwitch.checked) {
+            getWeather(searchBar.value)
+                .then((response) => { processJSON(response, "F") });
+            
+        } else {
+            getWeather(searchBar.value)
+                .then((response) => { processJSON(response, "C") });
+        }
+    }
 })
 
 async function getWeather(location) {
@@ -13,7 +34,7 @@ async function getWeather(location) {
     return weather;
 }
 
-function processJSON(data) {
+function processJSON(data, scale) {
     if (data.error) {
         console.error(data.error.message);
         if (data.error.code === 1006) {
@@ -26,15 +47,19 @@ function processJSON(data) {
     
     if (data.current && data.location) {
         setWeatherCondition(data.current.condition.text, data.current.condition.icon);
-        setTemp(data.current.temp_f, data.current.feelslike_f);
-        setDetails(data.current.precip_in, data.current.humidity, data.current.wind_mph);
+        if (scale === "F") {
+            setTemp(data.current.temp_f, data.current.feelslike_f, scale);
+            setDetails(data.current.precip_in, data.current.humidity, data.current.wind_mph, scale);
+        } else if (scale === "C") {
+            setTemp(data.current.temp_c, data.current.feelslike_c, scale);
+            setDetails(data.current.precip_mm, data.current.humidity, data.current.wind_kph, scale);
+        } else {
+            console.error("Error: processJSON requres F or C as a scale parameter. Scale recieved: " + scale);
+        }
         setDateAndLocation(data.location.name, data.location.region, data.current.last_updated);
     }
     
     console.log(data);
-    console.log(data.error);
-    console.log(data.current.temp_f);
-    console.log(data.location.name);
 }
 
 const conditionText = document.getElementById("condition-text");
@@ -46,16 +71,31 @@ function setWeatherCondition(condition, imgURL) {
 
 const tempText = document.getElementById("temp");
 const feelslikeText = document.getElementById("feelslike");
-function setTemp(temp, feelslike) {
-    tempText.innerText = temp + "°F";
-    feelslikeText.innerText = "feels like " + feelslike + " °F";
+function setTemp(temp, feelslike, scale) {
+    if (scale === "F") {
+        tempText.innerText = temp + "°F";
+        feelslikeText.innerText = "feels like " + feelslike + " °F";
+    } else if (scale === "C") {
+        tempText.innerText = temp + "°C";
+        feelslikeText.innerText = "feels like " + feelslike + " °C";
+    } else {
+        console.error("Error: setTemp requires F or C as a scale parameter. Scale recieved: " + scale);
+    }
 }
 
 const detailsText = document.getElementById("middle-right");
-function setDetails(precipitation, humidity, windMPH) {
-    detailsText.innerText = "Precipitation (in): " + precipitation + "\n";
-    detailsText.innerText += "Humidity: " + humidity + "%\n";
-    detailsText.innerText += "Wind speed (mph): " + windMPH;
+function setDetails(precipitation, humidity, windSpeed, scale) {
+    if (scale === "F") {
+        detailsText.innerText = "Precipitation (in): " + precipitation + "\n";
+        detailsText.innerText += "Humidity: " + humidity + "%\n";
+        detailsText.innerText += "Wind speed (mph): " + windSpeed;
+    } else if (scale === "C") {
+        detailsText.innerText = "Precipitation (mm): " + precipitation + "\n";
+        detailsText.innerText += "Humidity: " + humidity + "%\n";
+        detailsText.innerText += "Wind speed (kph): " + windSpeed;
+    } else {
+        console.error("Error: setDetails requires F or C as a scale parameter. Scale recieved: " + scale);
+    }
 }
 
 const locationText = document.getElementById("bottom-left");
