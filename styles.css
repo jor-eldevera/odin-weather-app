@@ -4,6 +4,7 @@ body {
     justify-content: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url("https://www.nextplatform.com/wp-content/uploads/2022/06/severe-weather-1030x438.jpg");
 }
 
 form {
@@ -18,7 +19,8 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
+    background-color: white;
+    padding: 5px;
 }
 
 #top {
