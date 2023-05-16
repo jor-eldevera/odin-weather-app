@@ -16,15 +16,26 @@ searchBtn.addEventListener("click", function (e) {
 const scaleSwitch = document.getElementById("switch");
 let weatherOnPage = false;
 scaleSwitch.addEventListener("change", function (e) {
-    if (weatherOnPage) { // only switch scales if there is info on the page
+    if (!searchBar.value) {
         if (scaleSwitch.checked) {
-            getWeather(searchBar.value)
+            getWeather(locationText.innerText)
             .then((response) => { processJSON(response, "F") });
         } else {
-            getWeather(searchBar.value)
+            getWeather(locationText.innerText)
             .then((response) => { processJSON(response, "C") });
         }
+    } else {
+        if (weatherOnPage) { // only switch scales if there is info on the page
+            if (scaleSwitch.checked) {
+                getWeather(searchBar.value)
+                .then((response) => { processJSON(response, "F") });
+            } else {
+                getWeather(searchBar.value)
+                .then((response) => { processJSON(response, "C") });
+            }
+        }
     }
+
 });
 
 // Set the default
@@ -60,7 +71,12 @@ function processJSON(data, scale) {
         } else {
             console.error("Error: processJSON requres F or C as a scale parameter. Scale recieved: " + scale);
         }
-        setDateAndLocation(data.location.name, data.location.region, data.current.last_updated);
+        
+        if (!data.location.region) {
+            setDateAndLocation(data.location.name, data.location.country, data.current.last_updated);
+        } else {
+            setDateAndLocation(data.location.name, data.location.region, data.current.last_updated);
+        }
     }
 }
 
